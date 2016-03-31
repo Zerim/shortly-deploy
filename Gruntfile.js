@@ -39,16 +39,18 @@ module.exports = function(grunt) {
           'public/dist/app.min.js': ['public/dist/app.concat.js']
         }
       }
-      // dep: {'public/dist/output.min.js': ['public/dist/dep.concat.js', 'public/dist/app.concat.js']}
     },
     clean: {
       contents: ['public/dist/*']
     },
 
     eslint: {
-      target: [
-        // Add list of files to lint here
-      ]
+      options: {
+        rulesDir: '.eslintrc.js',
+        quiet: true,
+        outputFile: 'eslint_output.txt'
+      },
+      target: ['**/*.js']
     },
 
     cssmin: {
@@ -120,7 +122,7 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', ['clean', 'concat:dep', 'concat:app', 'uglify:dist', 'cssmin:dist']);
+  grunt.registerTask('build', ['eslint', 'clean', 'concat:dep', 'concat:app', 'uglify:dist', 'cssmin:dist']);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
@@ -132,7 +134,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
-
+    console.log()
   ]);
 
   // grunt.registerTask('default', ['concat']);
