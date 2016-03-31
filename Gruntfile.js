@@ -78,10 +78,13 @@ module.exports = function(grunt) {
       }
     },
 
-    shell: {
+    exec: {
       prodServer: {
-        command: 'git push live master'
-      }
+        cmd: 'git push live master'
+      },
+      target: {
+        cmd: 'echo hello'
+      },
     },
     gitcheck: {
       options: {
@@ -102,7 +105,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-gitcheck');
 
