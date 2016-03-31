@@ -3,6 +3,18 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      options: {
+        separator: '\n',
+      },
+      dep: {
+        src: ['public/lib/jquery.js', 'public/lib/underscore.js', 'public/lib/backbone.js', 'public/lib/handlebars.js'],
+        dest: 'public/dist/dep.min.js'
+      },
+      app: {
+        src: 'public/client/*.js',
+        dest: 'public/dist/app.min.js'
+      }
+
     },
 
     mochaTest: {
@@ -93,8 +105,7 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', [
-  ]);
+  grunt.registerTask('build', ['concat:dep', 'concat:app']);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
@@ -106,7 +117,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
+
   ]);
 
+  // grunt.registerTask('default', ['concat']);
 
 };
