@@ -8,11 +8,11 @@ module.exports = function(grunt) {
       },
       dep: {
         src: ['public/lib/jquery.js', 'public/lib/underscore.js', 'public/lib/backbone.js', 'public/lib/handlebars.js'],
-        dest: 'public/dist/dep.min.js'
+        dest: 'public/dist/dep.concat.js'
       },
       app: {
         src: 'public/client/*.js',
-        dest: 'public/dist/app.min.js'
+        dest: 'public/dist/app.concat.js'
       }
 
     },
@@ -33,6 +33,13 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      dist: {
+        files: {
+          'public/dist/dep.min.js': ['public/dist/dep.concat.js'],
+          'public/dist/app.min.js': ['public/dist/app.concat.js']
+        }
+      }
+      // dep: {'public/dist/output.min.js': ['public/dist/dep.concat.js', 'public/dist/app.concat.js']}
     },
 
     eslint: {
@@ -105,7 +112,7 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', ['concat:dep', 'concat:app']);
+  grunt.registerTask('build', ['concat:dep', 'concat:app', 'uglify:dist']);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
