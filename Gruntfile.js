@@ -41,6 +41,9 @@ module.exports = function(grunt) {
       }
       // dep: {'public/dist/output.min.js': ['public/dist/dep.concat.js', 'public/dist/app.concat.js']}
     },
+    clean: {
+      contents: ['public/dist/*']
+    },
 
     eslint: {
       target: [
@@ -49,6 +52,11 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      dist: {
+        files: {
+          'public/dist/style.min.css': ['public/style.css']
+        }
+      }
     },
 
     watch: {
@@ -73,7 +81,7 @@ module.exports = function(grunt) {
       }
     },
   });
-
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -112,7 +120,7 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', ['concat:dep', 'concat:app', 'uglify:dist']);
+  grunt.registerTask('build', ['clean', 'concat:dep', 'concat:app', 'uglify:dist', 'cssmin:dist']);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
