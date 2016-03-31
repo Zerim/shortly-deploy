@@ -87,6 +87,7 @@ module.exports = function(grunt) {
       options: {
         branchChecking: true,
         enforceUncommitedChanges: true,
+        enforceUpdates: true
       },
 
       production: {
