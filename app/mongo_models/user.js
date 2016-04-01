@@ -2,10 +2,6 @@ var db = require('./config.js');
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 
-
-// var userId = db.Schema.Types.ObjectId();
-// userId.auto(true);
-
 var UserSchema = db.Schema({
   id: db.Schema.Types.ObjectId,
   username: String,
@@ -21,18 +17,16 @@ UserSchema.methods.comparePassword = function(attempted, callback) {
 };
 
 UserSchema.methods.hashPassword = function() {
-  var cipher = Promise.promisify(bcrypt.hash);
-  cipher(this.get('password'), null, null).bind(this)
-    .then(function(hash) {
-      console.log(hash, '******************  THIS:    ', this);
-      this.set({'password': hash});
-    }.bind(this));
+
 };
 
 UserSchema.pre('save', function(next) {
-  this.hashPassword();
-  next();
+  var cipher = Promise.promisify(bcrypt.hash);
+  return cipher(this.get('password'), null, null).bind(this)
+    .then(function(hash) {
+      this.password = hash;
+      next();
+    });
 });
-
 
 module.exports = db.model('User', UserSchema);

@@ -181,6 +181,7 @@ describe('', function() {
         .expect(function() {
           User.findOne({'username': 'Svnh'})
             .exec(function(err, user) {
+              // console.log(user);
               expect(user.username).to.equal('Svnh');
             });
         })
